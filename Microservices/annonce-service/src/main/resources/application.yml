@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: annonce-service
+server:
+  port: 8095

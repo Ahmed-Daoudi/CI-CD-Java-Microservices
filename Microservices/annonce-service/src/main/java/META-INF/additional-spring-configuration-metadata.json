@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "manager.api.url",
+  "type": "java.lang.String",
+  "description": "A description for 'manager.api.url'"
+}]}

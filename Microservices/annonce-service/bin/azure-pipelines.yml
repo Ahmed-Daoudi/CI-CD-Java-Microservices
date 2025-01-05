@@ -1,0 +1,45 @@
+trigger:
+        - ProjectService
+variables:
+  repoName: 'hydatisregistry.azurecr.io'
+
+pool:
+  vmImage: 'ubuntu-18.04'
+stages:
+- stage: maven_Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
+    - task: CmdLine@2
+      inputs:
+        script: |
+          docker login $(repoName) -u HydatisRegistry -p VfrUTbZ6duiFLZIuRP+DHgbc327d2i52
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+        goals: clean install
+    - task: CmdLine@2
+      inputs:
+        script: |
+          ls
+    - task: CmdLine@2
+      inputs:
+        script: |
+          docker build -t project .
+    - task: CmdLine@2
+      inputs:
+        script: |
+          docker tag project $(repoName)/hydatis-project
+          docker  push  $(repoName)/hydatis-project
+    

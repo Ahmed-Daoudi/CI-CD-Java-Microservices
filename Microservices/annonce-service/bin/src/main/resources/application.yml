@@ -1,0 +1,32 @@
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+spring:
+  application:
+    name: project-service
+  data:
+    mongodb:
+      host: database-mongodb
+      port: 27017
+      database: project-service
+
+  datasource:
+    url: jdbc:postgresql://database-project:5432/mydb
+    username: khaled
+    password: 98553393
+
+  kafka:
+    bootstrap-servers:
+      - kafka:9092
+    consumer:
+      group-id: project-group
+      enable-auto-commit: false
+      auto-offset-reset: latest
+      isolation-level: read_committed
+      key-serializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer

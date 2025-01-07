@@ -52,7 +52,16 @@ pipeline {
     }*/
    }
 
+    stage ("Integration Junits Test for annonce-services"){
+        steps {
+            sh "cd annonce-service && mvn verify -DskipUnitTests"
+        }
+         /*post {
+        always {
+            slackSend channel: 'ahmed-jenkins-notifications', message: "Integration Tests -> pipeline status : ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_URL}" 
+        }
+    }*/
+   }
 
-   
    }
 }

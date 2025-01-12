@@ -109,5 +109,30 @@ stage('Sonarqube Analysis'){
        }*/ 
     }
 
+stage('Build Docker Image') {
+      steps {
+        sh "ls annonce-service" 
+        sh "cd annonce-service && docker build -t annonce-service${BUILD_NUMBER} ."
+        sh 'docker tag annonce-service${BUILD_NUMBER} ahmeddaoudi/ats-project-repository:annonce-service${BUILD_NUMBER}'
+      }
+      /*post {
+        always {
+            slackSend channel: 'ahmed-jenkins-notifications', message: "Build Docker Image -> pipeline status : ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_URL}" 
+          }
+       }*/
+    }
+    
+     stage('Scan artifacts and docker images using trivy ') {
+            steps {
+                // Install trivy
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
+                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+                
+                // test vuln with trivy
+                sh 'trivy --no-progress annonce-service${BUILD_NUMBER} '
+            }
+    }
+
+
    }
 }

@@ -132,7 +132,44 @@ stage('Build Docker Image') {
                 sh 'trivy --no-progress annonce-service${BUILD_NUMBER} '
             }
     }
+stage('Connect to Docker-Hub') {
+           steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_password', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'docker login -u $USERNAME -p $PASSWORD'
+                        }
+                    }
+                    /*post {
+        always {
+            slackSend channel: 'ahmed-jenkins-notifications', message: " Connect to Docker-Hub -> pipeline status : ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_URL}" 
+          }
+       }*/
+                }
+            
+    stage("Push Image to Docker Hub"){
+            steps{
+        sh 'docker push ahmeddaoudi/ats-project-repository'
+        echo 'Image pushed'
+    }
+      /*post {
+        always {
+            slackSend channel: 'ahmed-jenkins-notifications', message: " Push Image to Docker Hub -> pipeline status : ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_URL}" 
+          }
+       
+    }*/
+    }
 
+    stage('Remove Tagged Images') {
+     steps {
+        sh 'docker rmi ahmeddaoudi/ats-project-repository:annonce-service${BUILD_NUMBER}'
+        sh 'docker rmi annonce-service${BUILD_NUMBER}'
+    }
+     /*post {
+        always {
+            slackSend channel: 'ahmed-jenkins-notifications', message: "Remove Tagged Images -> pipeline status : ${currentBuild.currentResult} ${env.JOB_NAME} ${env.BUILD_URL}" 
+          }
+       
+    }*/
+    }
 
    }
 }

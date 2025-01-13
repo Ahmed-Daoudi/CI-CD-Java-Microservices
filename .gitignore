@@ -1,0 +1,22 @@
+# Ignore build output
+target/
+build/
+
+# Ignore dependency files
+*.jar
+*.war
+*.ear
+
+# Ignore IDE-specific files
+.idea/
+*.iml
+*.project
+*.classpath
+.settings/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore README.md
+README.md

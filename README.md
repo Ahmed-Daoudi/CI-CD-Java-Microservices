@@ -23,6 +23,7 @@ The objective of this documentation is to create a complete CI/CD pipeline for a
 ---
 
 ## Project Architecture :
+just for test
 
 
 

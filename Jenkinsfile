@@ -170,6 +170,12 @@ stage('Connect to Docker-Hub') {
        
     }*/
     }
-
+  stage('Kubernetes Update') {
+    steps {
+        echo "Triggering updateKubernetesFile job"
+        build job: 'updateKubernetesFile', parameters: [string(name: 'DOCKERTAG', value: "${BUILD_NUMBER}")]
+    }
+  }
+    
    }
 }

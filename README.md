@@ -59,5 +59,15 @@ Global architecture of the Project:
 2. Add JFrog credentials and configure the server in Jenkins.
 3. Add a stage to upload Maven artifacts to JFrog Artifactory.
 
+### Building Docker Images and Pushing to Docker Hub
 
+1. Configure Docker as a global tool in Jenkins.
+2. Add stages to build and tag Docker images.
+3. Push images to a private Docker Hub repository.
+
+### Scanning Docker Images with Trivy
+
+1. Install Trivy as a global tool on your Jenkins server.
+2. Add a stage in the Jenkins pipeline to scan Docker images for vulnerabilities using Trivy.
+3. Ensure the pipeline halts on critical vulnerabilities for enhanced security.
 

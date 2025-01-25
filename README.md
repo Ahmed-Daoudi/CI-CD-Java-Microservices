@@ -71,3 +71,84 @@ Global architecture of the Project:
 2. Add a stage in the Jenkins pipeline to scan Docker images for vulnerabilities using Trivy.
 3. Ensure the pipeline halts on critical vulnerabilities for enhanced security.
 
+### Kubernetes Cluster Setup with Vagrant and kubeadm
+
+This guide explains how to set up a Kubernetes cluster using **Vagrant** and **kubeadm**.
+
+---
+
+#### Prerequisites
+
+1. Install:
+   - **Vagrant**
+   - **VirtualBox**
+   - **git**
+2. System requirements:
+   - 8 GB RAM, 4 CPUs, 20 GB disk space.
+
+---
+
+#### Project Structure
+
+```
+vagrant-kubeadm/
+├── configs/          # Configuration files
+├── scripts/          # Automation scripts
+│   ├── common.sh     # Common setup for all nodes
+│   ├── master.sh     # Master node initialization
+│   ├── node.sh       # Worker node setup
+│   ├── dashboard.sh  # Optional: Deploy Kubernetes Dashboard
+├── settings.yaml     # Cluster settings
+├── Vagrantfile       # VM definitions
+```
+
+---
+
+#### Steps to Set Up the Cluster
+
+1. **Clone the repository**:  
+   ```bash
+   git clone <repository_url>
+   cd vagrant-kubeadm
+   ```
+
+2. **Start VMs**:  
+   ```bash
+   vagrant up
+   ```
+
+3. **Initialize the Master Node**:  
+   SSH into the master and run:  
+   ```bash
+   vagrant ssh k8s-master
+   sudo bash /vagrant/scripts/master.sh
+   ```
+
+4. **Join Worker Nodes**:  
+   SSH into each worker node and run:  
+   ```bash
+   vagrant ssh k8s-worker-1
+   sudo bash /vagrant/scripts/node.sh
+   ```
+
+   Repeat for `k8s-worker-2`.
+
+5. **Verify the Cluster**:  
+   On the master node, check the nodes:  
+   ```bash
+   kubectl get nodes
+   ```
+
+---
+
+#### Optional: Deploy Kubernetes Dashboard
+
+To deploy the dashboard, run on the master:  
+```bash
+sudo bash /vagrant/scripts/dashboard.sh
+```
+
+---
+
+Your Kubernetes cluster is ready to use!
+```

@@ -109,7 +109,7 @@ vagrant-kubeadm/
 1. **Clone the repository**:  
    ```bash
    git clone <repository_url>
-   cd vagrant-kubeadm
+   cd vagrant-kubeadm-kubernetes
    ```
 
 2. **Start VMs**:  
@@ -151,4 +151,3 @@ sudo bash /vagrant/scripts/dashboard.sh
 ---
 
 Your Kubernetes cluster is ready to use!
-```
